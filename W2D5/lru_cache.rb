@@ -9,11 +9,7 @@ class LRUCache
   end
 
   def add(el)
-    if count < @size
-      short_cache_operation(el)
-    else
-      full_cache_operation(el)
-    end
+    count < @size ? short_cache_operation(el) : full_cache_operation(el)
   end
 
   def show
