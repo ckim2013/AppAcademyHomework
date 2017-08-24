@@ -33,18 +33,27 @@ with a class attribute containing 'col-' */
   width: 12.5%;
 }
 
+.hamburger-dropdown {
+  display: none;
+}
+
 /* CSS Day 6 media queries */
 @media all and (max-width: 900px) {
   [class*='col-'] {
     width: 100%;
   }
-  .hamburger-dropdown {
+
+  .original-nav {
     display: none;
   }
 
-  .hamburger-dropdown:hover ul {
+  .hamburger-dropdown {
     display: block;
+  }
+
+  .hamburger-dropdown:hover > li {
     background-image: url(hamburger.png);
+    display: block;
     width: 50px;
     height: 50px;
     background-size: 50px;
