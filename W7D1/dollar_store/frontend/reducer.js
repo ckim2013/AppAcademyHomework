@@ -1,3 +1,13 @@
+// const currentDate = () => {
+//   let date = new Date ();
+//
+//   let day = ("0" + date.getDate()).slice(-2);
+//   let month = ("0" + date.getMonth()).slice(-2);
+//   let year = (date.getYear());
+//
+//   return (year + '-' + month + '-' + day);
+// };
+
 const initialState = {
   baseCurrency: "Please select",
   rates: {}

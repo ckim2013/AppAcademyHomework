@@ -15,6 +15,7 @@ class Widget extends React.Component {
     this.props.store.subscribe(this.forceUpdate);
     this.currencies = ["USD", "EUR", "CAD", "JPY", "GBP", "CNY"];
     this.selectCurrency = selectCurrency.bind(this);
+    this.fetchRatesForYear = this.fetchRatesForYear.bind(this);
   }
 
   fetchRates(currency) {
@@ -32,6 +33,25 @@ class Widget extends React.Component {
         );
       }.bind(this)
     });
+  }
+
+  fetchRatesForYear(e) {
+    let date = e.target.value;
+    if (parseInt(date.slice(0, 4)) >= 1999) {
+      $.ajax({
+        url: `http://api.fixer.io/${date}`,
+        type: "GET",
+        dataType: "JSON",
+        success: function(resp) {
+          this.props.store.dispatch(
+            this.selectCurrency(resp.base, resp.rates)
+          );
+        }.bind(this),
+        error: function(res) {
+          console.log("ERROR NOOB");
+        }
+      });
+    }
   }
 
   render() {
@@ -60,6 +80,7 @@ class Widget extends React.Component {
     return (
       <div>
         <h1>Currency Exchange Rates</h1>
+        <input onChange={this.fetchRatesForYear} type="date" placeholder="Year"/>
         <h3>Base Currency: {baseCurrency}</h3>
 
         <div className="currency-selector">
