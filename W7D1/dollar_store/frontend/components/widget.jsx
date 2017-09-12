@@ -1,5 +1,6 @@
 import React from 'react';
 import Currency from './currency';
+import Calendar from './calendar';
 import {selectCurrency} from '../actions';
 
 // Window Testing
@@ -10,55 +11,34 @@ class Widget extends React.Component {
   constructor(props) {
     super(props);
     this.forceUpdate = this.forceUpdate.bind(this);
-
     // require this component to re-render whenever the store's state changes
     this.props.store.subscribe(this.forceUpdate);
     this.currencies = ["USD", "EUR", "CAD", "JPY", "GBP", "CNY"];
     this.selectCurrency = selectCurrency.bind(this);
-    this.fetchRatesForYear = this.fetchRatesForYear.bind(this);
   }
 
   fetchRates(currency) {
+    let state = this.props.store.getState();
     $.ajax({
-      url: `http://api.fixer.io/latest?base=${currency}`,
+      url: `http://api.fixer.io/${state.date}?base=${currency}`,
       type: "GET",
       dataType: "JSON",
       success: function(resp) {
-
         // tell the store to update with the new base currency and rates;
         // use the action creator 'selectCurrency' to build the object to
         // be dispatched
         this.props.store.dispatch(
-          this.selectCurrency(resp.base, resp.rates)
+          this.selectCurrency(resp.base, resp.rates, resp.date)
         );
       }.bind(this)
     });
-  }
-
-  fetchRatesForYear(e) {
-    let date = e.target.value;
-    if (parseInt(date.slice(0, 4)) >= 1999) {
-      $.ajax({
-        url: `http://api.fixer.io/${date}`,
-        type: "GET",
-        dataType: "JSON",
-        success: function(resp) {
-          this.props.store.dispatch(
-            this.selectCurrency(resp.base, resp.rates)
-          );
-        }.bind(this),
-        error: function(res) {
-          console.log("ERROR NOOB");
-        }
-      });
-    }
   }
 
   render() {
 
     // get the store's current state and deconstruct it into 'rates'
     // and 'baseCurrency' variables
-    const { rates, baseCurrency } = this.props.store.getState();
+    const { rates, baseCurrency, date } = this.props.store.getState();
 
     const currencyOptions = this.currencies.map( (currency) => (
         <div onClick={ () => { this.fetchRates(currency); }}
@@ -80,7 +60,8 @@ class Widget extends React.Component {
     return (
       <div>
         <h1>Currency Exchange Rates</h1>
-        <input onChange={this.fetchRatesForYear} type="date" placeholder="Year"/>
+
+        <Calendar store={this.props.store}/>
         <h3>Base Currency: {baseCurrency}</h3>
 
         <div className="currency-selector">

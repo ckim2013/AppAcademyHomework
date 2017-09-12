@@ -1,16 +1,17 @@
-// const currentDate = () => {
-//   let date = new Date ();
-//
-//   let day = ("0" + date.getDate()).slice(-2);
-//   let month = ("0" + date.getMonth()).slice(-2);
-//   let year = (date.getYear());
-//
-//   return (year + '-' + month + '-' + day);
-// };
+const currentDate = () => {
+  let date = new Date ();
+  let tempDay = parseInt(date.getDate()) - 2;
+  let day = ("0" + tempDay.toString()).slice(-2);
+  let tempMonth = parseInt(date.getMonth()) + 1;
+  let month = ("0" + tempMonth.toString()).slice(-2);
+  let year = (date.getFullYear());
+  return (year + '-' + month + '-' + day);
+};
 
 const initialState = {
   baseCurrency: "Please select",
-  rates: {}
+  rates: {},
+  date: currentDate()
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +20,14 @@ const reducer = (state = initialState, action) => {
     case "SWITCH_CURRENCY":
       return {
         baseCurrency: action.baseCurrency,
-        rates: action.rates
+        rates: action.rates,
+        date: action.date
+      };
+    case "SWITCH_DATE":
+      return {
+        baseCurrency: state.baseCurrency,
+        rates: state.rates,
+        date: action.date,
       };
     default:
       return state;
