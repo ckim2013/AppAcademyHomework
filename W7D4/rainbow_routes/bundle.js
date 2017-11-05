@@ -12627,7 +12627,7 @@ var Blue = function (_React$Component) {
         ),
         _react2.default.createElement(
           _reactRouterDom.NavLink,
-          { exact: true, to: '/blue/indigo' },
+          { to: '/blue/indigo' },
           'Add Indigo'
         ),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/blue/indigo', component: _indigo2.default })
@@ -12779,12 +12779,12 @@ var Red = function (_React$Component) {
         ),
         _react2.default.createElement(
           _reactRouterDom.NavLink,
-          { exact: true, to: '/red/orange' },
+          { to: '/red/orange' },
           'Add Orange'
         ),
         _react2.default.createElement(
           _reactRouterDom.NavLink,
-          { exact: true, to: '/red/yellow' },
+          { to: '/red/yellow' },
           'Add Yellow'
         ),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/red/orange', component: _orange2.default }),
